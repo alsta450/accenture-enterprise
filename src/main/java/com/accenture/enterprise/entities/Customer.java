@@ -8,14 +8,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import org.springframework.web.bind.annotation.PutMapping;
+
+import com.accenture.enterprise.controller.CustomerController;
+
 
 
 @Entity
-@SequenceGenerator(name="CUSTOMER_SEQ", initialValue=1, allocationSize=1)
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUSTOMER_SEQ")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
@@ -74,6 +77,12 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + ", email=" + email + "]";
+	}
+
+	@PutMapping("/customers")
+	public void udpate(CustomerController customerController){
+		
+		customerController.customerService.update(this);
 	}
 
 }
