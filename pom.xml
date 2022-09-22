@@ -1,155 +1,59 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.accenture.j2ee</groupId>
-	<artifactId>j2ee</artifactId>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.accenture.enterprise</groupId>
+	<artifactId>sales</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>J2EE</name>
-	<description>J2EE Application</description>
-
+	<name>sales</name>
+	<description>Sales System</description>
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!-- Wildfly server -->
-		<wildfly.version>26.1.1.Final</wildfly.version>
-
-		<wildfly-jar-maven-plugin.version>7.0.2.Final</wildfly-jar-maven-plugin.version>
-
-		<!-- Official Maven Plugins -->
-		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-		<maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
-		<maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-		<maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
-		<maven-surefire-report-plugin.version>3.0.0-M7</maven-surefire-report-plugin.version>
-
 	</properties>
-
 	<dependencies>
 		<dependency>
-			<groupId>jakarta.platform</groupId>
-			<artifactId>jakarta.jakartaee-api</artifactId>
-			<version>9.1.0</version>
-			<scope>provided</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.1.212</version>
+			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>wildfly-bootable</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.wildfly.plugins</groupId>
-						<artifactId>wildfly-jar-maven-plugin</artifactId>
-						<version>${wildfly-jar-maven-plugin.version}</version>
-						<configuration>
-							<feature-pack-location>
-                                wildfly-preview@maven(org.jboss.universe:community-universe)#${wildfly.version}
-                            </feature-pack-location>
-							<layers>
-								<layer>jaxrs</layer>
-								<layer>jsf</layer>
-								<layer>ejb</layer>
-								<layer>jpa</layer>
-								<layer>h2-datasource</layer>
-							</layers>
-							<plugin-options>
-								<jboss-fork-embedded>true</jboss-fork-embedded>
-							</plugin-options>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>package</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<build>
-		<finalName>j2ee</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.cargo</groupId>
-					<artifactId>cargo-maven3-plugin</artifactId>
-					<version>${cargo-maven3-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${maven-war-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<skipTests>${skip.unit.tests}</skipTests>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<excludes>
-								<exclude>**/it/**</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven-failsafe-plugin.version}</version>
-				<configuration>
-					<skipITs>${skip.integration.tests}</skipITs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-						<configuration>
-							<includes>
-								<include>**/it/**</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
 
 </project>
+
+
+
+
+
