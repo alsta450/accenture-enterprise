@@ -1,4 +1,4 @@
-package com.accenture.enterprise.model;
+package com.accenture.enterprise.controller.hateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -12,6 +12,7 @@ public class CustomerModel extends RepresentationModel<CustomerModel> {
 	private final Customer customer;
 
 	public CustomerModel(final Customer customer) {
+		super();
 		this.customer = customer;
 		add(linkTo(CustomerController.class).withRel("customers"));
 		add(linkTo(CustomerController.class).slash(customer.getId()).withSelfRel());

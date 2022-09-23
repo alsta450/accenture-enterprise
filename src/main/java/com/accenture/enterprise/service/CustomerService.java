@@ -1,7 +1,5 @@
 package com.accenture.enterprise.service;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -9,9 +7,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.accenture.enterprise.controller.CustomerController;
+import com.accenture.enterprise.controller.hateoas.CustomerModel;
 import com.accenture.enterprise.entities.Customer;
-import com.accenture.enterprise.model.CustomerModel;
 import com.accenture.enterprise.repository.CustomerRepository;
 
 @Service

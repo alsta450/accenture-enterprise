@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.accenture.enterprise.controller.hateoas.CustomerModel;
 import com.accenture.enterprise.entities.Customer;
-import com.accenture.enterprise.model.CustomerModel;
 import com.accenture.enterprise.service.CustomerService;
 
 @RestController
@@ -31,20 +31,18 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
+
 	@GetMapping
 	public ResponseEntity<CollectionModel<CustomerModel>> findAll() {
-		return ResponseEntity.ok(CollectionModel.of(customerService.findAll())
-				.add(linkTo(CustomerController.class).withSelfRel()));
+		return ResponseEntity
+				.ok(CollectionModel.of(customerService.findAll()).add(linkTo(CustomerController.class).withSelfRel()));
 	}
 
 	@PostMapping
 	public ResponseEntity<CustomerModel> create(@RequestBody Customer customer) {
-		final URI uri =
-		        MvcUriComponentsBuilder.fromController(getClass())
-		            .path("/customers").build()
-		            .toUri();
-		return ResponseEntity.created(uri).body( customerService.create(customer));
-		
+		final URI uri = MvcUriComponentsBuilder.fromController(getClass()).build().toUri();
+		return ResponseEntity.created(uri).body(customerService.create(customer));
+
 	}
 
 	@GetMapping("/{id}")
@@ -53,23 +51,17 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.findById(id));
 	}
 
-	
-	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		customerService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	
 	@PutMapping
 	public ResponseEntity<CustomerModel> update(@RequestBody Customer customer) {
 
 		CustomerModel customerModel = customerService.update(customer);
-		final URI uri =
-		        MvcUriComponentsBuilder.fromController(getClass())
-		            .path("/customers").build()
-		            .toUri();
+		final URI uri = MvcUriComponentsBuilder.fromController(getClass()).build().toUri();
 		return ResponseEntity.created(uri).body(customerModel);
 	}
 }
