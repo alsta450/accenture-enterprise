@@ -26,12 +26,11 @@ public class CustomerService {
 
 	public List<CustomerModel> findAll() {
 
-		List<CustomerModel> customers = new ArrayList<>();
+		List<CustomerModel> customerModels = new ArrayList<>();
 		customerRepository.findAll().iterator()
-				.forEachRemaining(customer -> customers.add(new CustomerModel(customer)));
+				.forEachRemaining(customer -> customerModels.add(new CustomerModel(customer)));
 		;
-
-		return customers;
+		return customerModels;
 	}
 
 	public CustomerModel create(Customer customer) {
@@ -42,7 +41,6 @@ public class CustomerService {
 	public CustomerModel findById(Long id) {
 		return customerRepository.findById(id).map(customer -> new CustomerModel(customer))
 				.orElseThrow(() -> new NoSuchElementException("No Customer with id: " + id));
-
 	}
 
 	public CustomerModel update(Customer customer) {
