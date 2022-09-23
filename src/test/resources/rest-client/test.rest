@@ -1,0 +1,14 @@
+# GET http://localhost:8080/products HTTP/1.1
+
+
+# POST REQUEST
+# POST http://localhost:8080/customers HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name":"Peter",
+#     "email":"test@test.com"
+# }
+
+
+GET http://localhost:8080/customers/5 HTTP/1.1
