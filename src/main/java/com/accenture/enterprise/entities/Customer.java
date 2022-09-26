@@ -1,9 +1,14 @@
 package com.accenture.enterprise.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-
 public class Customer {
 
 	@Id
@@ -23,12 +27,4 @@ public class Customer {
 	private Long id;
 	private String name;
 	private String email;
-	private String drivingLicense;
-	private String address;
-	private String country;
-	private String city;
-	private String socialMediaLink;
-	private String state;
-	
-	
 }
